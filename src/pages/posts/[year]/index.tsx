@@ -13,13 +13,26 @@ type Post = {
 
 const Page = ({
   posts,
-  yearsAndMonths,
+  year,
+  months,
 }: {
   posts: Post[];
-  yearsAndMonths: Array<{ [key: string]: string[] }>;
+  year: string;
+  months: string[];
 }) => {
   return (
     <section>
+      <ul>
+        {months.map((month) => {
+          return (
+            <li key={month}>
+              <Link href={`/posts/${year}${month}`}>
+                {month.replace("/", "")}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
       <ul>
         {posts.map(({ slug, frontMatter }) => (
           <li key={slug}>
@@ -31,36 +44,18 @@ const Page = ({
           </li>
         ))}
       </ul>
-      <hr />
-      <ul>
-        {yearsAndMonths.map((yearObj, idx) => {
-          const year = Object.keys(yearObj)[0];
-          return (
-            <li key={year}>
-              <Link href={`/posts${year}`}>{year.replace("/", "")}</Link>
-              <ul>
-                {yearObj[year].map((month: string) => {
-                  return (
-                    <li key={year + "-" + month}>
-                      <Link href={`/posts/${month}`}>
-                        {month.replace(`${year}/`, "")}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </li>
-          );
-        })}
-      </ul>
     </section>
   );
 };
 export default Page;
 
-export const getStaticProps = async () => {
-  // list all posts
-  const dirname = "./src/pages/posts";
+export const getStaticProps = async ({
+  params: { year },
+}: {
+  params: { year: string };
+}) => {
+  // list year posts
+  const dirname = "./src/pages/posts" + `/${year}/`;
   const files = listFiles(dirname);
   const posts = files
     .filter((filename) => {
@@ -74,31 +69,38 @@ export const getStaticProps = async () => {
       const { data: frontMatter } = matter(markdownWithMeta);
       return {
         frontMatter,
-        slug: filename.split(dirname)[1].split(".")[0],
+        slug: year + "/" + filename.split(dirname)[1].split(".")[0],
       };
+    });
+  // list months
+  const months = listDirs(dirname)
+    .filter((dirpath) => {
+      return !dirpath.endsWith("]");
     })
-    .reverse();
+    .map((dirpath) => {
+      return dirpath.replace(dirname, "");
+    });
+  return {
+    props: {
+      posts,
+      year,
+      months,
+    },
+  };
+};
 
-  // list years
-  const yearsAndMonths = listDirs(dirname)
+export const getStaticPaths = async () => {
+  const dirname = "./src/pages/posts";
+  const years = listDirs(dirname)
     .filter((yeardir) => {
       return !yeardir.endsWith("]");
     })
     .map((yeardir) => {
       const year = yeardir.replace(dirname, "");
-      const months = listDirs(yeardir)
-        .map((dir) => {
-          return dir.replace(dirname, "");
-        })
-        .reverse();
-
-      return { [year]: months };
-    })
-    .reverse();
+      return { params: { year: year.replace("/", "") } };
+    });
   return {
-    props: {
-      posts,
-      yearsAndMonths,
-    },
+    paths: years,
+    fallback: false,
   };
 };

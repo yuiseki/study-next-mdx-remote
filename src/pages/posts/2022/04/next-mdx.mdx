@@ -1,0 +1,90 @@
+---
+title: "@next/mdx でも frontmatter を使いたい。。"
+date: "2022-04-03"
+---
+
+# {frontmatter.title}
+
+{frontmatter.date}
+
+## `@next/mdx` を導入するだけで `.mdx` が扱えるようになる
+
+https://nextjs.org/docs/advanced-features/using-mdx
+
+```bash
+npm i @next/mdx @mdx-js/loader
+```
+
+とやったあとに、
+
+```js
+// next.config.js
+
+const withMDX = require("@next/mdx")({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+    // If you use `MDXProvider`, uncomment the following line.
+    // providerImportSource: "@mdx-js/react",
+  },
+});
+module.exports = withMDX({
+  // Append the default value with md extensions
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+});
+```
+
+と書くだけで、 `./pages/posts/test.mdx` とかが一応動くようになった。素晴らしい。
+
+## `@next/mdx` の罠
+
+上記の手順だけでは、 `frontmatter` が使えない。
+
+`frontmatter` というのは、Markdown 拡張の一種で、Markdown の先頭に YAML を書けるようにする記法。
+
+こういうの
+
+```md
+---
+title: "あいうえお"
+date: "2022-04-03"
+---
+```
+
+これが使えないと結構困る。
+
+## `remark-mdx-frontmatter` を使う
+
+これを解決する方法がある。
+
+```bash
+npm i remark-frontmatter remark-mdx-frontmatter
+```
+
+**超重要**
+**`next.config.js` を `next.config.mjs` に rename する**
+
+`next.config.js` では `import` が使えないため。
+
+```js
+// next.config.mjs
+
+import nextMdx from "@next/mdx";
+import remarkFrontmatter from "remark-frontmatter";
+import { remarkMdxFrontmatter } from "remark-mdx-frontmatter";
+
+const withMDX = nextMdx({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [
+      remarkFrontmatter,
+      [remarkMdxFrontmatter, { name: "frontmatter" }],
+    ],
+    rehypePlugins: [],
+  },
+});
+export default withMDX({
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+});
+```
