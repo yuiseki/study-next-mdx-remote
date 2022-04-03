@@ -33,6 +33,7 @@ const Page = ({
           </li>
         ))}
       </ul>
+      <hr />
       <ul>
         {months.map((month) => {
           return (
