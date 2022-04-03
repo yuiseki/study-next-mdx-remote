@@ -1,0 +1,95 @@
+---
+title: "MDXで静的Webサイトを作りたい"
+date: "2022-04-03"
+---
+
+## Markdown の表示例
+
+### テキスト
+
+aaa
+aaa
+
+aaa  
+bbb
+
+**strong**
+
+## リンク
+
+https://google.com/
+
+[link](./)
+
+### 順序ありリスト
+
+1. One
+2. Two
+3. Three
+
+### 順序なしリスト
+
+- One
+- Two
+- Three
+
+### 引用
+
+> This
+> is  
+> quote
+
+### 水平線
+
+---
+
+## GitHub Flavored Markdown
+
+### 打ち消し線
+
+~~strikethrough~~
+
+### 脚注
+
+脚注のテスト[^anchor]
+
+[^anchor]: 脚注
+
+### Table
+
+| aaa  | bbb  | ccc  |
+| ---- | ---- | ---- |
+| foo  | bar  | baz  |
+| hoge | fuga | piyo |
+| 111  | 222  | 333  |
+
+### シンタックスハイライト
+
+`rm -rf /`
+
+`#ffce44`
+
+`rgb(255,0,0)`
+
+```ts
+const hoge = "huga";
+
+(async () => {
+  await fetch();
+})();
+```
+
+### 数式
+
+Lift($L$) can be determined by Lift Coefficient ($C_L$) like the following
+equation.
+
+$$
+L = \frac{1}{2} \rho v^2 S C_L
+$$
+
+### JSX をそのまま表示
+
+<div style={{ padding: "20px", backgroundColor: "tomato" }}>
+  <h3>This is JSX</h3>
+</div>
