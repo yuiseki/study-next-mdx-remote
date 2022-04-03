@@ -5,6 +5,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
+        <title>sitename</title>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css"

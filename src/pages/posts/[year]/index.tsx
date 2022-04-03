@@ -23,17 +23,6 @@ const Page = ({
   return (
     <section>
       <ul>
-        {months.map((month) => {
-          return (
-            <li key={month}>
-              <Link href={`/posts/${year}${month}`}>
-                {month.replace("/", "")}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-      <ul>
         {posts.map(({ slug, frontMatter }) => (
           <li key={slug}>
             <Link href={`/posts/${slug}`}>
@@ -43,6 +32,17 @@ const Page = ({
             <small>{frontMatter.date}</small>
           </li>
         ))}
+      </ul>
+      <ul>
+        {months.map((month) => {
+          return (
+            <li key={month}>
+              <Link href={`/posts/${year}${month}`}>
+                {month.replace("/", "")}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
@@ -71,7 +71,8 @@ export const getStaticProps = async ({
         frontMatter,
         slug: year + "/" + filename.split(dirname)[1].split(".")[0],
       };
-    });
+    })
+    .reverse();
   // list months
   const months = listDirs(dirname)
     .filter((dirpath) => {
@@ -79,7 +80,8 @@ export const getStaticProps = async ({
     })
     .map((dirpath) => {
       return dirpath.replace(dirname, "");
-    });
+    })
+    .reverse();
   return {
     props: {
       posts,

@@ -17,7 +17,7 @@ const Page = ({ posts }: { posts: Post[] }) => {
       <ul>
         {posts.map(({ slug, frontMatter }) => (
           <li key={slug}>
-            <Link href={`/posts${slug}`}>
+            <Link href={`/posts/${slug}`}>
               <a>{frontMatter.title}</a>
             </Link>
             <br />

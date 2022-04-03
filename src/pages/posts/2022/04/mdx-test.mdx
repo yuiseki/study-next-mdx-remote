@@ -3,6 +3,14 @@ title: "MDXの表示テスト"
 date: "2022-04-03"
 ---
 
+import { Frontmatter } from "../../../../components/Frontmatter";
+
+<Frontmatter frontmatter={frontmatter} />
+
+# {frontmatter.title}
+
+{frontmatter.date}
+
 ## Markdown の表示例
 
 ### テキスト
