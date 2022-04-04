@@ -23,7 +23,7 @@ const Page = ({
       <ul>
         {posts.map(({ slug, frontMatter }) => (
           <li key={slug}>
-            <Link href={`/posts/${slug}`}>
+            <Link href={`/posts${slug}`}>
               <a>{frontMatter.title}</a>
             </Link>
             <br />
@@ -42,7 +42,7 @@ const Page = ({
                 {yearObj[year].map((month: string) => {
                   return (
                     <li key={year + "-" + month}>
-                      <Link href={`/posts/${month}`}>
+                      <Link href={`/posts${year}${month}`}>
                         {month.replace(`${year}/`, "")}
                       </Link>
                     </li>
@@ -60,11 +60,14 @@ export default Page;
 
 export const getStaticProps = async () => {
   // list all posts
-  const dirname = "./src/pages/posts";
+  const dirname = "./src/pages/posts/";
   const files = listFiles(dirname);
   const posts = files
     .filter((filename) => {
       return filename.endsWith("mdx");
+    })
+    .filter((filename) => {
+      return !filename.endsWith("index.tsx");
     })
     .map((filename) => {
       const markdownWithMeta = fs.readFileSync(
@@ -84,17 +87,22 @@ export const getStaticProps = async () => {
     .filter((yeardir) => {
       return !yeardir.endsWith("]");
     })
+    .filter((filename) => {
+      return !filename.endsWith("index.tsx");
+    })
     .map((yeardir) => {
       const year = yeardir.replace(dirname, "");
       const months = listDirs(yeardir)
         .map((dir) => {
-          return dir.replace(dirname, "");
+          return dir.replace(dirname + year, "");
         })
         .reverse();
 
       return { [year]: months };
     })
     .reverse();
+  console.log(yearsAndMonths);
+
   return {
     props: {
       posts,

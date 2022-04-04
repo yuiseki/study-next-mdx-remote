@@ -62,6 +62,9 @@ export const getStaticProps = async ({
     .filter((filename) => {
       return filename.endsWith("mdx");
     })
+    .filter((filename) => {
+      return !filename.endsWith("index.tsx");
+    })
     .map((filename) => {
       const markdownWithMeta = fs.readFileSync(
         path.join("./", filename),
@@ -70,10 +73,11 @@ export const getStaticProps = async ({
       const { data: frontMatter } = matter(markdownWithMeta);
       return {
         frontMatter,
-        slug: year + "/" + filename.split(dirname)[1].split(".")[0],
+        slug: year + filename.split(dirname)[1].split(".")[0],
       };
     })
     .reverse();
+
   // list months
   const months = listDirs(dirname)
     .filter((dirpath) => {
@@ -83,6 +87,7 @@ export const getStaticProps = async ({
       return dirpath.replace(dirname, "");
     })
     .reverse();
+
   return {
     props: {
       posts,
@@ -102,7 +107,6 @@ export const getStaticPaths = async () => {
       const year = yeardir.replace(dirname, "");
       return { params: { year: year.replace("/", "") } };
     });
-  years.push({ params: { year: "index" } })
   return {
     paths: years,
     fallback: false,

@@ -41,6 +41,9 @@ export const getStaticProps = async ({
     .filter((filename) => {
       return filename.endsWith("mdx");
     })
+    .filter((filename) => {
+      return !filename.endsWith("index.tsx");
+    })
     .map((filename) => {
       const markdownWithMeta = fs.readFileSync(
         path.join("./", filename),
@@ -49,8 +52,7 @@ export const getStaticProps = async ({
       const { data: frontMatter } = matter(markdownWithMeta);
       return {
         frontMatter,
-        slug:
-          year + "/" + month + "/" + filename.split(dirname)[1].split(".")[0],
+        slug: year + month + filename.split(dirname)[1].split(".")[0],
       };
     });
   return {
