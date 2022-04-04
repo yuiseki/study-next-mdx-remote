@@ -25,4 +25,5 @@ const withMDX = nextMdx({
 export default withMDX({
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   basePath: "/study-nextjs-mdx",
+  trailingSlash: true,
 });

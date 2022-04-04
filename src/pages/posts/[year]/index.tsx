@@ -102,6 +102,7 @@ export const getStaticPaths = async () => {
       const year = yeardir.replace(dirname, "");
       return { params: { year: year.replace("/", "") } };
     });
+  years.push({ params: { year: "index" } })
   return {
     paths: years,
     fallback: false,
