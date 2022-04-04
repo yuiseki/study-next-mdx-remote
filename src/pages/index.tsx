@@ -11,7 +11,7 @@ const HomePage = () => {
     <section>
       <ul>
         <li>
-          <Link href="posts">Posts</Link>
+          <Link href="/posts">Posts</Link>
         </li>
       </ul>
     </section>
