@@ -31,7 +31,7 @@
     "@types/react": "17.0.76",
     "@types/react-dom": "17.0.25",
     "eslint": "8.57.0",
-    "eslint-config-next": "14.1.0",
+    "eslint-config-next": "14.1.2",
     "typescript": "5.3.3"
   }
 }
