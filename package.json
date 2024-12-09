@@ -16,8 +16,8 @@
     "gray-matter": "^4.0.3",
     "next": "12.3.4",
     "next-mdx-remote": "^5.0.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "rehype-highlight": "^7.0.0",
     "rehype-katex": "^6.0.2",
     "remark-frontmatter": "^4.0.1",
@@ -28,8 +28,8 @@
   "devDependencies": {
     "@types/mdx": "^2.0.1",
     "@types/node": "^20.0.0",
-    "@types/react": "17.0.83",
-    "@types/react-dom": "17.0.25",
+    "@types/react": "19.0.1",
+    "@types/react-dom": "19.0.2",
     "eslint": "8.57.1",
     "eslint-config-next": "15.0.3",
     "typescript": "5.6.3"
